@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"> 
+    <script src="http://code.angularjs.org/1.2.6/angular.js"></script> 
+    <script src="js/app.js"></script>
+</head>
+
+<!-- apply angular app and controller to our body -->
+<body ng-app="validationApp" ng-controller="mainController">
+    <div class="container">
+        <div class="col-sm-8 col-sm-offset-2">
+            
+            <div class="page-header"><h1>Hello World!!</h1></div>
+           
+            <!-- FORM -->
+            <form name="userForm" ng-submit="submitForm(userForm.$valid)" novalidate>
+
+                <div class="form-group" ng-class="{ 'has-error' : userForm.fname.$invalid && !userForm.fname.$pristine }">
+                    <label>First Name</label>
+                    <input type="text" name="fname" class="form-control" ng-model="user.fname" required>
+                    <p ng-show="userForm.fname.$invalid && !userForm.fname.$pristine" class="help-block">Your first name is required.</p>
+                </div>
+
+                <div class="form-group" ng-class="{ 'has-error' : userForm.lname.$invalid && !userForm.lname.$pristine }">
+                    <label>Last Name</label>
+                    <input type="text" name="lname" class="form-control" ng-model="user.lname" required>
+                    <p ng-show="userForm.lname.$invalid && !userForm.lname.$pristine" class="help-block">Your last name is required.</p>
+                </div>
+
+                <div class="form-group" ng-class="{ 'has-error' : userForm.adrs1.$invalid && !userForm.adrs1.$pristine }">
+                    <label>Address 1</label>
+                    <input type="text" name="adrs1" class="form-control" ng-model="user.adrs1" required>
+                    <p ng-show="userForm.adrs1.$invalid && !userForm.adrs1.$pristine" class="help-block">Your Address 1 is Required</p>
+                </div>
+
+                <div class="form-group" ng-class="{ 'has-error' : userForm.adrs2.$invalid && !userForm.adrs2.$pristine }">
+                    <label>Address 2</label>
+                    <input type="text" name="adrs1" class="form-control" ng-model="user.adrs2">
+                </div>
+
+                <div class="form-group" ng-class="{ 'has-error' : userForm.city.$invalid && !userForm.city.$pristine }">
+                    <label>City</label>
+                    <input type="text" name="city" class="form-control" ng-model="user.city" required>
+                    <p ng-show="userForm.city.$invalid && !userForm.city.$pristine" class="help-block">Your City is Required</p>
+                </div>
+
+                <div class="form-group" ng-class="{ 'has-error' : userForm.state.$invalid && !userForm.state.$pristine }">
+                    <label>State</label>
+                    <input type="text" name="state" class="form-control" ng-model="user.state" required>
+                    <p ng-show="userForm.state.$invalid && !userForm.state.$pristine" class="help-block">Your State is Required</p>
+                </div>
+
+                <div class="form-group" ng-class="{ 'has-error' : userForm.zipcode.$invalid && !userForm.zipcode.$pristine }">
+                    <label>Zipcode</label>
+                    <input type="text" name="zipcode" class="form-control" ng-model="user.zipcode" required>
+                    <p ng-show="userForm.zipcode.$invalid && !userForm.zipcode.$pristine" class="help-block">Your Zipcode is Required</p>
+                </div>
+
+                <button type="submit" class="btn btn-primary" ng-disabled="userForm.$invalid">Submit</button>
+                
+            </form>
+
+        </div><!-- col-sm-8 -->
+    </div><!-- /container -->
+</body>
+</html>
