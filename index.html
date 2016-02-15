@@ -1,67 +1,93 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <title>HelloWorld Team Registration</title>
+    <link rel="stylesheet" href="css/main.css" >
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"> 
     <script src="http://code.angularjs.org/1.2.6/angular.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.28/angular-route.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script type="text/javascript" src="js/backstretch.js"></script> 
     <script src="js/app.js"></script>
 </head>
 
 <!-- apply angular app and controller to our body -->
-<body ng-app="validationApp" ng-controller="mainController">
+<body ng-app="helloWorldAssessmentApp" ng-controller="mainController">
+<div class="overlay">&nbsp;</div>
+<div class="overlay-color">&nbsp;</div>
     <div class="container">
-        <div class="col-sm-8 col-sm-offset-2">
+        <div class="col-sm-8 col-sm-offset-2" ng-hide="showConfirmation">
             
-            <div class="page-header"><h1>Hello World Assessment Test1!!</h1></div>
-           
+            <div class=" mainHeader" >
+                <h1>Join the HelloWorld Team</h1>
+                <h5>Please fill out the form below to register.</h5>
+            </div>
             <!-- FORM -->
-            <form name="userForm" ng-submit="submitForm(userForm.$valid)" novalidate>
+            <form name="userForm" ng-submit="submitForm(userForm.$valid)" novalidate >
 
-                <div class="form-group" ng-class="{ 'has-error' : userForm.fname.$invalid && !userForm.fname.$pristine }">
-                    <label>First Name</label>
-                    <input type="text" name="fname" class="form-control" ng-model="user.fname" required>
-                    <p ng-show="userForm.fname.$invalid && !userForm.fname.$pristine" class="help-block">Your first name is required.</p>
+                <div class="form-group col-sm-6" ng-class="{ 'has-error' : fnameHasError || errorFnameAlph || duplicate}">
+                    <input type="text" name="fname" class="form-control" ng-model="user.fname"  placeholder="First Name" ng-blur="checkFname()" ng-keyup="checkFname()">
+                    <!-- Client-Side validation -->
+                    <p ng-show="fnameReqErr" class="help-block">Your first name is required.</p>
+                    <p ng-show="errorFnameAlph" class="help-block">First name should be alpha characters only.</p>
+                    <!-- Server-Side validation -->
+                    <p ng-show="errorFnameShort" class="help-block">First name should be within 3-20 characters long.</p>
+                    <p ng-show="duplicate" class="alert alert-info">Sorry! another person with this name registered already.</p>
                 </div>
 
-                <div class="form-group" ng-class="{ 'has-error' : userForm.lname.$invalid && !userForm.lname.$pristine }">
-                    <label>Last Name</label>
-                    <input type="text" name="lname" class="form-control" ng-model="user.lname" required>
-                    <p ng-show="userForm.lname.$invalid && !userForm.lname.$pristine" class="help-block">Your last name is required.</p>
+                <div class="form-group col-sm-6" ng-class="{ 'has-error' : lnameHasError || errorLnameAlph }">
+                    <input type="text" name="lname" class="form-control" ng-model="user.lname"  placeholder="Last Name" ng-blur="checkLname()" ng-keyup="checkLname()">
+                    <!-- Client-Side validation -->
+                    <p ng-show="lnameReqErr" class="help-block">Your Last name is required.</p>
+                    <!-- Server-Side validation -->
+                    <p ng-show="errorLnameAlph" class="help-block">Last name should be alpha characters only.</p>
+
                 </div>
 
-                <div class="form-group" ng-class="{ 'has-error' : userForm.adrs1.$invalid && !userForm.adrs1.$pristine }">
-                    <label>Address 1</label>
-                    <input type="text" name="adrs1" class="form-control" ng-model="user.adrs1" required>
-                    <p ng-show="userForm.adrs1.$invalid && !userForm.adrs1.$pristine" class="help-block">Your Address 1 is Required</p>
+                <div class="form-group col-sm-9" ng-class="{ 'has-error' : addr1HasError }">
+                    <input type="text" name="addr1" class="form-control" ng-model="user.addr1"  placeholder="Address 1" ng-blur="checkAddr1()" ng-keyup="checkAddr1()">
+                    <p ng-show="addr1ReqErr" class="help-block">Your Address 1 is Required</p>
                 </div>
 
-                <div class="form-group" ng-class="{ 'has-error' : userForm.adrs2.$invalid && !userForm.adrs2.$pristine }">
-                    <label>Address 2</label>
-                    <input type="text" name="adrs1" class="form-control" ng-model="user.adrs2">
+                <div class="form-group col-sm-3">
+                    <input type="text" name="addr2" class="form-control" ng-model="user.addr2" placeholder="Address 2">
                 </div>
 
-                <div class="form-group" ng-class="{ 'has-error' : userForm.city.$invalid && !userForm.city.$pristine }">
-                    <label>City</label>
-                    <input type="text" name="city" class="form-control" ng-model="user.city" required>
-                    <p ng-show="userForm.city.$invalid && !userForm.city.$pristine" class="help-block">Your City is Required</p>
+                <div class="form-group col-sm-6" ng-class="{ 'has-error' : cityHasError }">
+                    <input type="text" name="city" class="form-control" ng-model="user.city"  placeholder="City" ng-blur="checkCity()" ng-keyup="checkCity()">
+                    <p ng-show="cityReqErr" class="help-block">Your City is Required</p>
                 </div>
 
-                <div class="form-group" ng-class="{ 'has-error' : userForm.state.$invalid && !userForm.state.$pristine }">
-                    <label>State</label>
-                    <input type="text" name="state" class="form-control" ng-model="user.state" required>
-                    <p ng-show="userForm.state.$invalid && !userForm.state.$pristine" class="help-block">Your State is Required</p>
+                <div class="form-group col-sm-6" ng-class="{ 'has-error' : user.state == 'Select a State'}">
+                     <select class="form-control" ng-model="user.state" name="state" ng-options="state.stateName as state.stateName for state in states">
+                          <option value="">Select a State</option>
+                     </select>
+                     <p ng-show="user.state == 'Select a State' " class="help-block">Please choose a state</p>
                 </div>
 
-                <div class="form-group" ng-class="{ 'has-error' : userForm.zipcode.$invalid && !userForm.zipcode.$pristine }">
-                    <label>Zipcode</label>
-                    <input type="text" name="zipcode" class="form-control" ng-model="user.zipcode" required>
-                    <p ng-show="userForm.zipcode.$invalid && !userForm.zipcode.$pristine" class="help-block">Your Zipcode is Required</p>
+                <div class="form-group col-sm-6" ng-class="{ 'has-error' : zipHasError}">
+                    <input type="text" numbers-only ng-minlength="5" ng-maxlength="5" name="zipcode" class="form-control" ng-model="user.zipcode"  placeholder="Zipcode" 
+                    ng-blur="checkZip()" ng-keyup="checkZip()">
+                    <p ng-show="zipReqErr" class="help-block">Your Zipcode is Required</p>
+                    <p ng-show="zipLengthErr" class="help-block">Zipcode have to be 5 digits</p>
                 </div>
 
-                <button type="submit" class="btn btn-primary" ng-disabled="userForm.$invalid">Submit</button>
+                <div class="form-group col-sm-6" ng-class="{ 'has-error' : userForm.country.$invalid && !userForm.country.$pristine }">
+                    <select class="form-control" name="country" ng-model="user.country">
+                      <option value="">Select a Country</option>
+                      <option>US</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="button col-sm-12" ng-disabled="userForm.$invalid">Submit</button>
                 
             </form>
-
         </div><!-- col-sm-8 -->
+
+        <div ng-show="showConfirmation" class="mainHeader">
+            <h1>Congratulations!!</h1>
+            <h3>{{userName}} you have been submitted to join the HelloWorld team.</h3>
+        </div>
     </div><!-- /container -->
 </body>
 </html>
