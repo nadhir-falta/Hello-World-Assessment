@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+- phpMyAdmin XML Dump
+- version 4.0.10.12
+- http://www.phpmyadmin.net
+-
+- Host: 127.2.30.130:3306
+- Generation Time: Feb 14, 2016 at 04:04 AM
+- Server version: 5.5.45
+- PHP Version: 5.3.3
+-->
+
+<pma_xml_export version="1.0" xmlns:pma="http://www.phpmyadmin.net/some_doc_url/">
+    <!--
+    - Structure schemas
+    -->
+    <pma:structure_schemas>
+        <pma:database name="helloworld" collation="utf8_general_ci" charset="utf8">
+            <pma:table name="helloWorldTable">
+                CREATE TABLE `helloWorldTable` (
+                  `fname` varchar(35) NOT NULL,
+                  `lname` varchar(35) NOT NULL,
+                  `addr1` varchar(70) NOT NULL,
+                  `addr2` varchar(150) DEFAULT NULL,
+                  `city` varchar(35) NOT NULL,
+                  `state` text NOT NULL,
+                  `zip` text NOT NULL,
+                  `country` text NOT NULL,
+                  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                  PRIMARY KEY (`fname`,`lname`),
+                  KEY `addr2` (`addr2`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+            </pma:table>
+        </pma:database>
+    </pma:structure_schemas>
+
+    <!--
+    - Database: 'helloworld'
+    -->
+    <database name="helloworld">
+        <!-- Table helloWorldTable -->
+    </database>
+</pma_xml_export>
