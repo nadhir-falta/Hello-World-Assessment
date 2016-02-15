@@ -25,7 +25,7 @@
             <form name="userForm" novalidate >
 
                 <div class="form-group col-sm-6" ng-class="{ 'has-error' : fnameHasError ||  duplicate}">
-                    <input type="text" name="fname" class="form-control" ng-model="user.fname" required placeholder="First Name" ng-blur="checkFname()" ng-keyup="checkFname()">
+                    <input type="text" name="fname" class="form-control" ng-model="user.fname" maxlength="35" required placeholder="First Name" ng-blur="checkFname()" ng-keyup="checkFname()">
                     <!-- Client-Side validation -->
                     <p ng-show="fnameReqErr" class="help-block">Your first name is required.</p>
                     <p ng-show="fnameAlphErr" class="help-block">First name should be alpha characters only.</p>
@@ -34,7 +34,7 @@
                 </div>
 
                 <div class="form-group col-sm-6" ng-class="{ 'has-error' : lnameHasError }">
-                    <input type="text" name="lname" class="form-control" ng-model="user.lname" required placeholder="Last Name" ng-blur="checkLname()" ng-keyup="checkLname()">
+                    <input type="text" name="lname" class="form-control" ng-model="user.lname" maxlength="35" required placeholder="Last Name" ng-blur="checkLname()" ng-keyup="checkLname()">
                     <!-- Client-Side validation -->
                     <p ng-show="lnameReqErr" class="help-block">Your Last name is required.</p>
                     <!-- Server-Side validation -->
@@ -42,16 +42,16 @@
                 </div>
 
                 <div class="form-group col-sm-9" ng-class="{ 'has-error' : addr1HasError }">
-                    <input type="text" name="addr1" class="form-control" ng-model="user.addr1" required placeholder="Address 1" ng-blur="checkAddr1()" ng-keyup="checkAddr1()">
+                    <input type="text" name="addr1" class="form-control" ng-model="user.addr1" maxlength="50" required placeholder="Address 1" ng-blur="checkAddr1()" ng-keyup="checkAddr1()">
                     <p ng-show="addr1ReqErr" class="help-block">Your Address 1 is Required</p>
                 </div>
 
                 <div class="form-group col-sm-3">
-                    <input type="text" name="addr2" class="form-control" ng-model="user.addr2" placeholder="Address 2">
+                    <input type="text" name="addr2" class="form-control" ng-model="user.addr2" maxlength="15" placeholder="Address 2">
                 </div>
 
                 <div class="form-group col-sm-6" ng-class="{ 'has-error' : cityHasError }">
-                    <input type="text" name="city" class="form-control" ng-model="user.city" required placeholder="City" ng-blur="checkCity()" ng-keyup="checkCity()">
+                    <input type="text" name="city" class="form-control" ng-model="user.city" maxlength="35" required placeholder="City" ng-blur="checkCity()" ng-keyup="checkCity()">
                     <p ng-show="cityReqErr" class="help-block">Your City is Required</p>
                 </div>
                 
@@ -71,7 +71,7 @@
                 </div>
 
                 <div class="form-group col-sm-3" ng-class="{ 'has-error' : zipHasError}">
-                    <input type="text" numbers-only ng-minlength="5" ng-maxlength="5" name="zipcode" required class="form-control" ng-model="user.zipcode"  placeholder="Zipcode" 
+                    <input type="text" numbers-only ng-minlength="5" ng-maxlength="5" maxlength="5" name="zipcode" required class="form-control" ng-model="user.zipcode"  placeholder="Zipcode" 
                     ng-blur="checkZip()" ng-keyup="checkZip()">
                     <p ng-show="zipReqErr" class="help-block">Your Zipcode is Required</p>
                     <p ng-show="zipLengthErr" class="help-block">Zipcode have to be 5 digits</p>

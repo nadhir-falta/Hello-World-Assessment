@@ -22,7 +22,6 @@ helloWorldAssessmentApp.controller('mainController', function($scope,$http,$loca
   $scope.user.zipcode = "";
   $scope.user.country = "";
 
-
   // function to submit the form after all validation has occurred            
   $scope.submitForm = function(isValid) {
     $scope.duplicate = false;
@@ -296,3 +295,15 @@ helloWorldAssessmentApp.directive('numbersOnly', function () {
           }
       };
   });
+
+helloWorldAssessmentApp.directive("limitTo", [function() {
+    return {
+        restrict: "A",
+        link: function(scope, elem, attrs) {
+            var limit = parseInt(attrs.limitTo);
+            angular.element(elem).on("keydown", function() {
+                if (this.value.length == limit) return false;
+            });
+        }
+    }
+}]);
