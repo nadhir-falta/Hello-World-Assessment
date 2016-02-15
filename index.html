@@ -11,7 +11,6 @@
     <script src="js/app.js"></script>
 </head>
 
-<!-- apply angular app and controller to our body -->
 <body ng-app="helloWorldAssessmentApp" ng-controller="mainController">
 <div class="overlay">&nbsp;</div>
 <div class="overlay-color">&nbsp;</div>
@@ -23,29 +22,27 @@
                 <h5>Please fill out the form below to register.</h5>
             </div>
             <!-- FORM -->
-            <form name="userForm" ng-submit="submitForm(userForm.$valid)" novalidate >
+            <form name="userForm" novalidate >
 
-                <div class="form-group col-sm-6" ng-class="{ 'has-error' : fnameHasError || errorFnameAlph || duplicate}">
-                    <input type="text" name="fname" class="form-control" ng-model="user.fname"  placeholder="First Name" ng-blur="checkFname()" ng-keyup="checkFname()">
+                <div class="form-group col-sm-6" ng-class="{ 'has-error' : fnameHasError ||  duplicate}">
+                    <input type="text" name="fname" class="form-control" ng-model="user.fname" required placeholder="First Name" ng-blur="checkFname()" ng-keyup="checkFname()">
                     <!-- Client-Side validation -->
                     <p ng-show="fnameReqErr" class="help-block">Your first name is required.</p>
-                    <p ng-show="errorFnameAlph" class="help-block">First name should be alpha characters only.</p>
+                    <p ng-show="fnameAlphErr" class="help-block">First name should be alpha characters only.</p>
                     <!-- Server-Side validation -->
-                    <p ng-show="errorFnameShort" class="help-block">First name should be within 3-20 characters long.</p>
                     <p ng-show="duplicate" class="alert alert-info">Sorry! another person with this name registered already.</p>
                 </div>
 
-                <div class="form-group col-sm-6" ng-class="{ 'has-error' : lnameHasError || errorLnameAlph }">
-                    <input type="text" name="lname" class="form-control" ng-model="user.lname"  placeholder="Last Name" ng-blur="checkLname()" ng-keyup="checkLname()">
+                <div class="form-group col-sm-6" ng-class="{ 'has-error' : lnameHasError }">
+                    <input type="text" name="lname" class="form-control" ng-model="user.lname" required placeholder="Last Name" ng-blur="checkLname()" ng-keyup="checkLname()">
                     <!-- Client-Side validation -->
                     <p ng-show="lnameReqErr" class="help-block">Your Last name is required.</p>
                     <!-- Server-Side validation -->
-                    <p ng-show="errorLnameAlph" class="help-block">Last name should be alpha characters only.</p>
-
+                    <p ng-show="lnameAlphErr" class="help-block">Last name should be alpha characters only.</p>
                 </div>
 
                 <div class="form-group col-sm-9" ng-class="{ 'has-error' : addr1HasError }">
-                    <input type="text" name="addr1" class="form-control" ng-model="user.addr1"  placeholder="Address 1" ng-blur="checkAddr1()" ng-keyup="checkAddr1()">
+                    <input type="text" name="addr1" class="form-control" ng-model="user.addr1" required placeholder="Address 1" ng-blur="checkAddr1()" ng-keyup="checkAddr1()">
                     <p ng-show="addr1ReqErr" class="help-block">Your Address 1 is Required</p>
                 </div>
 
@@ -54,36 +51,38 @@
                 </div>
 
                 <div class="form-group col-sm-6" ng-class="{ 'has-error' : cityHasError }">
-                    <input type="text" name="city" class="form-control" ng-model="user.city"  placeholder="City" ng-blur="checkCity()" ng-keyup="checkCity()">
+                    <input type="text" name="city" class="form-control" ng-model="user.city" required placeholder="City" ng-blur="checkCity()" ng-keyup="checkCity()">
                     <p ng-show="cityReqErr" class="help-block">Your City is Required</p>
                 </div>
-
-                <div class="form-group col-sm-6" ng-class="{ 'has-error' : user.state == 'Select a State'}">
-                     <select class="form-control" ng-model="user.state" name="state" ng-options="state.stateName as state.stateName for state in states">
+                
+                <div class="form-group col-sm-6" ng-class="{ 'has-error' : stateHasError}">
+                     <select class="form-control" ng-model="user.state" name="state" required ng-options="state.stateName as state.stateName for state in states" ng-blur="checkState()" ng-keyup="checkState()">
                           <option value="">Select a State</option>
                      </select>
-                     <p ng-show="user.state == 'Select a State' " class="help-block">Please choose a state</p>
+                     <p ng-show="stateReqErr" class="help-block">Please choose a state</p>
                 </div>
 
-                <div class="form-group col-sm-6" ng-class="{ 'has-error' : zipHasError}">
-                    <input type="text" numbers-only ng-minlength="5" ng-maxlength="5" name="zipcode" class="form-control" ng-model="user.zipcode"  placeholder="Zipcode" 
+                <div class="form-group col-sm-9" ng-class="{ 'has-error' : countryHasError }">
+                    <select class="form-control" name="country" ng-model="user.country"  required ng-blur="checkCountry()" ng-keyup="checkCountry()">
+                      <option value="">Select a Country</option>
+                      <option>US</option>
+                    </select>
+                    <p ng-show="countryReqErr" class="help-block">Please choose a country</p>
+                </div>
+
+                <div class="form-group col-sm-3" ng-class="{ 'has-error' : zipHasError}">
+                    <input type="text" numbers-only ng-minlength="5" ng-maxlength="5" name="zipcode" required class="form-control" ng-model="user.zipcode"  placeholder="Zipcode" 
                     ng-blur="checkZip()" ng-keyup="checkZip()">
                     <p ng-show="zipReqErr" class="help-block">Your Zipcode is Required</p>
                     <p ng-show="zipLengthErr" class="help-block">Zipcode have to be 5 digits</p>
                 </div>
 
-                <div class="form-group col-sm-6" ng-class="{ 'has-error' : userForm.country.$invalid && !userForm.country.$pristine }">
-                    <select class="form-control" name="country" ng-model="user.country">
-                      <option value="">Select a Country</option>
-                      <option>US</option>
-                    </select>
-                </div>
-
-                <button type="submit" class="button col-sm-12" ng-disabled="userForm.$invalid">Submit</button>
+                <button type="submit" class="button col-sm-12" ng-disabled="userForm.$invalid" ng-click="submitForm(userForm.$valid)">Submit</button>
                 
             </form>
         </div><!-- col-sm-8 -->
 
+        <!-- a Message to show when a data has been submitted successfully -->
         <div ng-show="showConfirmation" class="mainHeader">
             <h1>Congratulations!!</h1>
             <h3>{{userName}} you have been submitted to join the HelloWorld team.</h3>

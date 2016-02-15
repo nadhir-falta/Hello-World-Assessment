@@ -31,14 +31,21 @@
         $errors['cityEmpty'] = true;
     }
 
+    if (empty($state)) { 
+        $errors['stateEmpty'] = true;
+    }
+
+    if (empty($country)) { 
+        $errors['countryEmpty'] = true;
+    }
+
     if (empty($zip)) { 
         $errors['zipEmpty'] = true;
     }
-    // return a response ==============
 
     // response if there are errors
     if (empty($errors)) {
-        // if there are no errors, return a message
+        
         $info['success'] = true;
         $info['message'] = 'Success!';
 
@@ -58,8 +65,6 @@
 
         // Print "Your information has been successfully added to the database.";
         // mysql_close($sql_connection);
-
-      
     } else {
       // if there are items in our errors array, return those errors
       $info['success'] = false;
